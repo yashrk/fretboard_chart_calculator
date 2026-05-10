@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: calculator-storage-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: network-drives.csi.timeweb.cloud
+    volumeHandle: 42ff76b3-eb69-4efd-90eb-50a7aae0b4f6
+    fsType: ext4
+  storageClassName: nvme.network-drives.csi.timeweb.cloud

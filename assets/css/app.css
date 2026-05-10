@@ -1,0 +1,243 @@
+@font-face {
+    font-family: 'Roboto Slab';
+    src: url('/fonts/RobotoSlab-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto Slab Bold';
+    src: url('/fonts/RobotoSlab-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'PT Sans';
+    src: url('/fonts/PTN75F.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'CormorantGaramond';
+    src: url('/fonts/CormorantGaramond-SemiBold.otf') format('opentype');
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.header {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.header h1 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem); /* Адаптивный размер шрифта */
+    font-family: 'CormorantGaramond';
+    margin-bottom: 0.5rem;
+    color: #3E2723;
+}
+
+.header-image {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;
+}
+
+body {
+    font-family: 'Roboto Slab', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f3efe8 0%, #f2efe7 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.interface {
+    background: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Tabs */
+
+/* Скрываем radio inputs */
+.interface input[type="radio"] {
+    display: none;
+}
+
+.tabs-nav {
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid #aaaaa5;
+    position: relative;
+}
+
+.tabs-nav label {
+    font-family: 'Roboto Slab Bold', Roboto, sans-serif;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #888;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.3s ease;
+    position: relative;
+    user-select: none;
+}
+
+.tabs-nav label:hover {
+    color: #ccc;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* Активная вкладка — подчёркивание снизу */
+.tabs-nav label::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: transparent;
+    border-radius: 2px;
+    transition: background 0.3s ease;
+}
+
+.tabs-content {
+    position: relative;
+    min-height: 150px;
+    height: auto;
+    display: grid;
+}
+
+.tab-panel {
+    grid-area: 1 / 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    padding: 24px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+/* === Логика переключения === */
+#tab1:checked ~ .tabs-nav label[for="tab1"],
+#tab2:checked ~ .tabs-nav label[for="tab2"] {
+    color: #3E2723;
+}
+
+#tab1:checked ~ .tabs-nav label[for="tab1"]::after,
+#tab2:checked ~ .tabs-nav label[for="tab2"]::after {
+    background: #3E2723;
+}
+
+#tab1:checked ~ .tabs-content .panel-1,
+#tab2:checked ~ .tabs-content .panel-2 {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Interface itself */
+
+.control-group {
+    flex: 1;
+    min-width: 120px;
+}
+
+#root-control, #root-control-arp {
+    flex: 0 0 15%; /* Не растягивается, не сжимается, занимает 20% */
+    min-width: 80px;
+}
+
+#accidental-control, #accidental-control-arp {
+    flex: 0 0 15%; /* Не растягивается, не сжимается, занимает 20% */
+    min-width: 80px;
+}
+
+#scale-control, #arpeggio-control {
+    flex: 0 0 60%; /* Не растягивается, не сжимается, занимает 60% */
+    min-width: 200px; /* Минимальная ширина для читаемости */
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: #a9a9a9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    /* Увеличиваем область нажатия для мобильных */
+    min-height: 48px;
+}
+
+.control-select:focus {
+    outline: none;
+    border-color: #9E8783;
+    box-shadow: 0 0 0 3px rgba(150, 100, 100, 0.25);
+}
+
+.fretboard-container {
+    position: relative;
+    margin-top: 10px;
+    overflow-x: auto; /* Горизонтальная прокрутка для мобильных */
+    padding: 1rem 0;
+    -webkit-overflow-scrolling: touch; /* Плавная прокрутка на iOS */
+}
+
+.fretboard {
+    position: relative;
+    min-width: fit-content;
+    width: 100%;
+}
+
+/* Адаптивность для разных экранов */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 0.75rem;
+        gap: 1rem;
+    }
+
+    .control-panel {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem;
+    }
+
+    .control-group {
+        min-width: 100%;
+    }
+
+    .fretboard-container {
+        margin: 0 -0.75rem; /* Компенсируем padding контейнера */
+    }
+}

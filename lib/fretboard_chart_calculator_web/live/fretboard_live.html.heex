@@ -1,0 +1,145 @@
+<div class="interface">
+  <!-- Tab controls -->
+  <input type="radio" name="tabs" id="tab1" checked={@current_mode==:scales}>
+  <input type="radio" name="tabs" id="tab2" checked={@current_mode==:arpeggios}>
+  <!-- Tab navigation -->
+  <div class="tabs-nav">
+    <label for="tab1" phx-click="switch-to-scales">Scales</label>
+    <label for="tab2" phx-click="switch-to-arpeggios">Arpeggios</label>
+  </div>
+  <!-- Calculator UI -->
+  <div class="tabs-content">
+    <div class="tab-panel panel-1">
+      <div id="root-control" class="control-group">
+        <label for="root-note">Root note</label>
+        <select id="root-note"
+          phx-click="set-root-note-name"
+          name="root-note-name"
+          class="control-select">
+          <%= Phoenix.HTML.Form.options_for_select(@roots, @current_root) %>
+        </select>
+      </div> <!-- root-control -->
+      <div id="accidental-control" class="control-group">
+        <label for="accidental">Accidental</label>
+        <select id="accidental"
+          phx-click="set-root-note-accidental"
+          name="root-note-accidental"
+          class="control-select">
+          <%= Phoenix.HTML.Form.options_for_select(@accidentals, @current_accidental) %>
+        </select>
+      </div> <!-- accidental-control -->
+      <div id="scale-control" class="control-group">
+        <label for="scale">Scale</label>
+        <select id="scale"
+          phx-click="set-scale"
+          name="scale"
+          class="control-select">
+          <%= Phoenix.HTML.Form.options_for_select(@scales, @current_scale) %>
+        </select>
+      </div> <!-- scale-control -->
+    </div> <!-- tab-panel panel-1 -->
+    <div class="tab-panel panel-2">
+      <div id="root-control-arp" class="control-group">
+        <label for="root-note-arp">Root note</label>
+        <select id="root-note-arp"
+          phx-click="set-root-note-name"
+          name="root-note-name"
+          class="control-select">
+          <%= Phoenix.HTML.Form.options_for_select(@roots, @current_root) %>
+        </select>
+      </div> <!-- root-control -->
+      <div id="accidental-control-arp" class="control-group">
+        <label for="accidental-arp">Accidental</label>
+        <select id="accidental-arp"
+          phx-click="set-root-note-accidental"
+          name="root-note-accidental"
+          class="control-select">
+          <%= Phoenix.HTML.Form.options_for_select(@accidentals, @current_accidental) %>
+        </select>
+      </div> <!-- accidental-control -->
+      <div id="arpeggio-control" class="control-group">
+        <label for="arpeggio">Arpeggio</label>
+        <select id="arpeggio"
+          phx-click="set-chord"
+          name="apreggio"
+          class="control-select">
+          <%= Phoenix.HTML.Form.options_for_select(@chords, @current_chord) %>
+        </select>
+      </div> <!-- scale-control -->
+    </div> <!-- tab-panel panel-2 -->
+  </div> <!-- tabs-content -->
+</div> <!-- interface -->
+<div class="fretboard-container">
+  <div class="fretboard">
+    <svg viewBox="0 0 600 155" xmlns="http://www.w3.org/2000/svg">
+      <rect
+        x={@neck.x}
+        y={@neck.y}
+        width={@neck.width}
+        height={@neck.height}
+        rx={@neck.rx}
+        fill="#2D1B18"
+        stroke="#1a100e"
+        stroke-width="1"/>
+
+      <rect
+        x={@nut.x}
+        y={@nut.y}
+        width={@nut.width}
+        height={@nut.height}
+        fill="#EFEBE9"
+        stroke="#8D6E63"
+        stroke-width="0.5"/>
+
+      <rect
+        x={@fretboard.x}
+        y={@fretboard.y}
+        width={@fretboard.width}
+        height={@fretboard.height}
+        rx={@fretboard.rx}
+        fill="#3E2723"
+        stroke="#281815"
+        stroke-width="1"/>
+
+      <g stroke="#B0BEC5" stroke-width="2.5">
+        <%= for fret_x <- @fret_xs do %>
+          <line x1={fret_x} y1={@fret_y1} x2={fret_x} y2={@fret_y2} />
+        <% end %>
+      </g>
+
+      <g fill="#D7CCC8" opacity="0.95">
+        <%= for {cx, cy} <- @marker_coords do %>
+          <circle cx={cx} cy={cy} r="3"/>
+        <% end %>
+      </g>
+
+      <g stroke="#DAD2E2" stroke-linecap="butt">
+        <%= for {y, thickness} <- @string_data do %>
+          <line x1={@string_x1} y1={y} x2={@string_x2} y2={y} stroke-width={thickness}/>
+        <% end %>
+      </g>
+
+      <g font-family="'PT Serif', serif" font-size="11" fill="#3E2723" text-anchor="middle">
+        <%= for {fret_x, roman_number} <- @fret_number_data do %>
+          <text x={fret_x} y={@fret_number_y}><%= roman_number %></text>
+        <% end %>
+      </g>
+
+      <g fill="#FA8549" opacity="0.95">
+        <%= for string <- 1..6 do %>
+        <%= for {fret, note} <- @current_chart[string] do %>
+        <circle cx={@note_xs[fret]} cy={@string_ys[string]} r="6"/>
+        <text x={@note_xs[fret]-4}
+          y={@string_ys[string]+2}
+          font-family="Roboto"
+          font-weight: bold;
+          font-size="7px"
+          fill="#3E2723">
+          <%= note %>
+        </text>
+        <% end %>
+        <% end %>
+      </g>
+    </svg>
+  </div> <!-- fretboard -->
+</div> <!-- fretboard-container -->

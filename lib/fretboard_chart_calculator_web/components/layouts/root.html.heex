@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" class="[scrollbar-gutter:stable]">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title>
+      <%= assigns[:page_title] || "FretboardChartCalculator" %>
+    </.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    <meta property="og:title" content="Fretboard Chart Calculator" />
+    <meta property="og:description" content="A small application to show scales and arpeggios on the fretboard." />
+    <meta property="og:image" content="https://calculator.cicuta.ru/images/header.png" />
+    <meta property="og:url" content="https://calculator.cicuta.ru" />
+    </script>
+  </head>
+  <body class="app-container">
+    <%= @inner_content %>
+  </body>
+</html>
