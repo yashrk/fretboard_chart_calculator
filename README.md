@@ -1,5 +1,17 @@
 # FretboardChartCalculator
 
+## About this project
+
+Calculator for guitar fretboard charts (scales, chords).
+
+![screenshot](https://github.com/yashrk/fretboard_chart_calculator/blob/master/main/priv/static/images/screenshot.png)
+
+Instance online: https://calculator.cicuta.ru
+
+Uses https://github.com/yashrk/music_scale as a computational kernel.
+
+## How to build and run
+
 To start locally:
 
   * Run `mix setup` to install and setup dependencies
