@@ -50,3 +50,6 @@ npm-debug.log
 
 # Vendored deps, for Docker only
 /vendor/
+
+# Language server working directory
+/.expert/
