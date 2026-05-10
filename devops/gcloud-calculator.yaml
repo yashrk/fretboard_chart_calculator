@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fretboard-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fretboard-calculator
+  template:
+    metadata:
+      labels:
+        app: fretboard-calculator
+    spec:
+      securityContext:
+        fsGroup: 65534
+      containers:
+      - name: fretboard-calculator
+        image: europe-docker.pkg.dev/chart-calculator-495215/yashrk-registry/fretboard-calculator:latest
+        env:
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: phoenix-secret
+              key: secret-key-base
+        - name: SITE_ENCRYPT_DB
+          value: /mnt/data/site_encrypt_db
+        - name: CERT_MODE
+          value: staging
+        - name: PHX_HOST
+          value: 34.141.23.71
+        ports:
+        - protocol: TCP
+          containerPort: 4000
+        - protocol: TCP
+          containerPort: 4040
+        resources:
+          limits:
+            ephemeral-storage: 1Gi
+          requests:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+        volumeMounts:
+        - name: calculator-storage
+          mountPath: /mnt/data
+      volumes:
+      - name: calculator-storage
+        persistentVolumeClaim:
+          claimName: calculator-storage-pvc
