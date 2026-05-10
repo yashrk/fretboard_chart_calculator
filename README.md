@@ -4,7 +4,7 @@
 
 Calculator for guitar fretboard charts (scales, chords).
 
-![screenshot](https://github.com/yashrk/fretboard_chart_calculator/blob/master/main/priv/static/images/screenshot.png)
+![screenshot](https://github.com/yashrk/fretboard_chart_calculator/blob/main/priv/static/images/screenshot.png)
 
 Instance online: https://calculator.cicuta.ru
 
